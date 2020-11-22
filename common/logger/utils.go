@@ -58,7 +58,7 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 		rd, err := ioutil.ReadDir(p.RootDir + "log")
 		if err != nil {
 			//serverlogger.Println("read dir err",err)
-			err := os.Mkdir(p.RootDir+"log", 0700)
+			err := os.Mkdir(p.RootDir+"log", 0777)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -82,7 +82,7 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 
 		//打开日志文件
 		p.file, _ = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
-			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0700)
+			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0777)
 		info, _ := p.file.Stat()
 		p.size = info.Size()
 	}
@@ -93,7 +93,7 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 		p.file.Close()
 		fmt.Println("log file full")
 		p.file, _ = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
-			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0700)
+			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0777)
 		p.size = 0
 		p.lastCount++
 	}
@@ -102,7 +102,7 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 		fmt.Println("log file date change")
 		p.lastDate = time.Now().Format("2006-01-02")
 		p.file, _ = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
-			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0700)
+			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0777)
 		p.size = 0
 		p.lastCount = 1
 	}
