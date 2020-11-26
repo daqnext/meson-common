@@ -96,6 +96,6 @@ type SpeedTestCmdMsg struct {
 	FileName   string `json:"file_name" binding:"required"`
 }
 
-type deleteFolderCmdMsg struct {
-	folderName string `json:"foldername" binding:"required"`
+type DeleteFolderCmdMsg struct {
+	FolderName string `json:"foldername" binding:"required"`
 }
