@@ -52,9 +52,7 @@ var recordWriter *bufio.Writer
 
 var jobChan = make(chan *DownloadTask, 1024)
 
-//初始化任务管理器
 func InitTaskMgr(rootPath string) {
-	//获取文件句柄
 	if !utils.Exists(rootPath) {
 		err := os.Mkdir(rootPath, 0700)
 		if err != nil {
@@ -68,14 +66,13 @@ func InitTaskMgr(rootPath string) {
 		logger.Error("Open unfinishtask record file error", "err", err)
 		return
 	}
-	//及时关闭file句柄
+
 	defer func() {
 		fileHandle.Close()
 		fileHandle = nil
 	}()
 
-	//从文件中读取剩余的任务,放入队列中
-	//读原来文件的内容，并且显示在终端
+	//read unfinished task
 	reader := bufio.NewReader(fileHandle)
 
 	for {
@@ -96,7 +93,6 @@ func InitTaskMgr(rootPath string) {
 	}
 }
 
-//添加任务
 func AddTask(targetUrl string, originTag string, continent string, country string, area string, bindNameHash string, fileNameHash string, tryTimes int) error {
 	if fileHandle == nil {
 		var err error
@@ -125,10 +121,10 @@ func AddTask(targetUrl string, originTag string, continent string, country strin
 	}
 	leftTaskCount++
 
-	//把任务插入到任务队列中
+	//add task to chan
 	jobChan <- newTask
 
-	//把任务插入文件末尾,以便重启后可以继续执行未完成的任务
+	//add task to the end of the file,the task can be continue when restart
 	str, err := json.Marshal(*newTask)
 	if err != nil {
 		logger.Error("DownloadTask Marshal Error", "err", err)
@@ -143,12 +139,10 @@ func AddTask(targetUrl string, originTag string, continent string, country strin
 	return nil
 }
 
-//指定具体任务的执行方式
 func SetExecTaskFunc(function func(task *DownloadTask) error) {
 	execFunc = function
 }
 
-//指定任务失败时的处理方式
 func SetOnTaskFailed(function func(task *DownloadTask)) {
 	onTaskFailed = function
 }
@@ -164,8 +158,8 @@ func Run() {
 				}
 				err := execFunc(task)
 				if err != nil {
-					//任务失败
-					//将任务放回队列
+					//task failed
+					//push to the end of the list
 					if task.TryTimes < 5 {
 						tryTimes := task.TryTimes + 1
 						AddTask(task.TargetUrl, task.OriginTag, task.Continent, task.Country, task.Area, task.BindNameHash, task.FileNameHash, tryTimes)
@@ -177,20 +171,20 @@ func Run() {
 
 				}
 				leftTaskCount--
-				//从文件头中删除此任务
+				//delete task from record file
 				RemoveFinishedTaskFromFile()
 			}
 		}
 	}()
 }
 
-//删除任务列表中的第一行
+//delete first line of task list
 func RemoveFinishedTaskFromFile() ([]byte, error) {
 	if delTaskFileHandle == nil {
 		var err error
 		delTaskFileHandle, err = os.OpenFile(recordFilePath, os.O_RDWR, 0666)
 		if err != nil {
-			fmt.Println("文件打开失败", err)
+			fmt.Println("open file error", err)
 		}
 	}
 	f := delTaskFileHandle
@@ -240,17 +234,16 @@ func RemoveFinishedTaskFromFile() ([]byte, error) {
 	return line, nil
 }
 
-//下载文件
 func DownLoadFile(url string, distFilePath string) error {
-	//创建一个http client
+	//http client
 	client := new(http.Client)
-	//get方法获取资源
+	//get
 	resp, err := client.Get(url)
 	if err != nil {
 		logger.Error("get file url "+url+" error", "err", err)
 		return err
 	}
-	//创建文件
+	//creat folder and file
 	distDir := path.Dir(distFilePath)
 	err = os.MkdirAll(distDir, os.ModePerm)
 	if err != nil {

@@ -23,7 +23,7 @@ func GetStringHash(str string) string {
 	return hex.EncodeToString(h.Sum(nil))
 }
 
-//生成随机位数数字
+//rand num string of given length
 func GenValidateCode(width int) string {
 	numeric := [10]byte{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	r := len(numeric)
@@ -60,7 +60,7 @@ func RunCommand(cmdstring string, args ...string) (string, error) {
 	return out.String(), err
 }
 
-// 判断所给路径文件/文件夹是否存在
+// is folder or file exist
 func Exists(path string) bool {
 	_, err := os.Stat(path) //os.Stat获取文件信息
 	if err != nil {
@@ -72,7 +72,7 @@ func Exists(path string) bool {
 	return true
 }
 
-// 判断所给路径是否为文件夹
+// is folder or not
 func IsDir(path string) bool {
 	s, err := os.Stat(path)
 	if err != nil {
@@ -81,7 +81,7 @@ func IsDir(path string) bool {
 	return s.IsDir()
 }
 
-// 判断所给路径是否为文件
+// is file or not
 func IsFile(path string) bool {
 	return !IsDir(path)
 }
@@ -148,9 +148,6 @@ func FileNameWithoutExtension(fileName string) string {
 }
 
 func findEmptyFolder(dirname string) (emptys []string, err error) {
-	// Golang学习 - io/ioutil 包
-	// https://www.cnblogs.com/golove/p/3278444.html
-
 	files, err := ioutil.ReadDir(dirname)
 	if err != nil {
 		return nil, err
@@ -182,9 +179,9 @@ func DeleteEmptyFolders(path string) {
 	}
 	for _, dir := range emptys {
 		if err := os.Remove(dir); err != nil {
-			fmt.Println("错误:", err.Error())
+			fmt.Println("delete folder error:", err.Error())
 		} else {
-			fmt.Println("删除成功:", dir)
+
 		}
 	}
 }

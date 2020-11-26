@@ -18,7 +18,6 @@ func Request(method string, url string, payload interface{}, header map[string]s
 		}
 	}
 
-	//提交请求
 	request, _ := http.NewRequest(method, url, bytes.NewBuffer(bytesData))
 	if header != nil {
 		for k, v := range header {

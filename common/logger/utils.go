@@ -53,7 +53,7 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 	if p.file == nil {
 		p.lastDate = time.Now().Format("2006-01-02")
 
-		//检查当天是否已经有文件
+		//check today file is exist or not
 		count := 0
 		rd, err := ioutil.ReadDir(p.RootDir + "log")
 		if err != nil {
@@ -80,7 +80,7 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 			p.lastCount = count
 		}
 
-		//打开日志文件
+		//open log file
 		p.file, _ = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
 			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0777)
 		info, _ := p.file.Stat()
@@ -88,7 +88,7 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 	}
 	n, e := p.file.Write(data)
 	p.size += int64(n)
-	//文件最大 512K byte
+	//max size 512K byte
 	if p.size > p.MaxSize {
 		p.file.Close()
 		fmt.Println("log file full")
