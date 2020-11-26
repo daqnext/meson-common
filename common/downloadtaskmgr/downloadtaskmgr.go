@@ -11,6 +11,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path"
 	"sync"
 )
 
@@ -250,6 +251,11 @@ func DownLoadFile(url string, distFilePath string) error {
 		return err
 	}
 	//创建文件
+	distDir := path.Dir(distFilePath)
+	err = os.MkdirAll(distDir, os.ModePerm)
+	if err != nil {
+		return err
+	}
 	file, err := os.Create(distFilePath)
 	if err != nil {
 		return err

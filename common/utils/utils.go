@@ -6,10 +6,12 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"math/rand"
 	sysnet "net"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
 	"strings"
 	"time"
@@ -143,4 +145,46 @@ func HashLocalFile(inputUrl string, bytesnum int64) (string, error) {
 
 func FileNameWithoutExtension(fileName string) string {
 	return strings.TrimSuffix(fileName, filepath.Ext(fileName))
+}
+
+func findEmptyFolder(dirname string) (emptys []string, err error) {
+	// Golang学习 - io/ioutil 包
+	// https://www.cnblogs.com/golove/p/3278444.html
+
+	files, err := ioutil.ReadDir(dirname)
+	if err != nil {
+		return nil, err
+	}
+	// 判断底下是否有文件
+	if len(files) == 0 {
+		return []string{dirname}, nil
+	}
+
+	for _, file := range files {
+		if file.IsDir() {
+			edirs, err := findEmptyFolder(path.Join(dirname, file.Name()))
+			if err != nil {
+				return nil, err
+			}
+			if edirs != nil {
+				emptys = append(emptys, edirs...)
+			}
+		}
+	}
+	return emptys, nil
+}
+
+func DeleteEmptyFolders(path string) {
+	emptys, err := findEmptyFolder(path)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	for _, dir := range emptys {
+		if err := os.Remove(dir); err != nil {
+			fmt.Println("错误:", err.Error())
+		} else {
+			fmt.Println("删除成功:", dir)
+		}
+	}
 }
