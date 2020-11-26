@@ -95,3 +95,7 @@ type SpeedTestCmdMsg struct {
 	Port       string `json:"port" binding:"required"`
 	FileName   string `json:"file_name" binding:"required"`
 }
+
+type deleteFolderCmdMsg struct {
+	folderName string `json:"foldername" binding:"required"`
+}
