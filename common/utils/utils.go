@@ -185,3 +185,15 @@ func DeleteEmptyFolders(path string) {
 		}
 	}
 }
+
+func FileAddMark(originFileName string, mark string) string {
+	extension := filepath.Ext(originFileName)
+	fileNameAddMark := ""
+	if extension == "" {
+		fileNameAddMark = originFileName + mark
+	} else {
+		fileNameAddMark = originFileName[:len(originFileName)-len(extension)]
+		fileNameAddMark = fileNameAddMark + mark + extension
+	}
+	return fileNameAddMark
+}

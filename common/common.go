@@ -16,3 +16,5 @@ func init() {
 const FileTransferRunPort = "9092"
 const ValidatorRunPort = "9093"
 const SpeedTesterRunPort = "9094"
+
+const RedirectMark = "-redirecter456gt"
