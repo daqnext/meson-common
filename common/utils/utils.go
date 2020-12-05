@@ -152,7 +152,7 @@ func findEmptyFolder(dirname string) (emptys []string, err error) {
 	if err != nil {
 		return nil, err
 	}
-	// 判断底下是否有文件
+
 	if len(files) == 0 {
 		return []string{dirname}, nil
 	}

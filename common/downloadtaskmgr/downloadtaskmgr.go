@@ -237,12 +237,12 @@ func RemoveFinishedTaskFromFile() ([]byte, error) {
 func DownLoadFile(url string, distFilePath string) error {
 	//http client
 	client := new(http.Client)
-	head, err := client.Head(url)
-	if err != nil {
-		return err
-	}
-	length := head.ContentLength
-	logger.Debug("donwload file,head contentLength", "length", length)
+	//head, err := client.Head(url)
+	//if err != nil {
+	//	return err
+	//}
+	//length := head.ContentLength
+	//logger.Debug("donwload file,head contentLength", "length", length)
 
 	//get
 	resp, err := client.Get(url)
@@ -277,7 +277,12 @@ func DownLoadFile(url string, distFilePath string) error {
 	}
 	size := fileInfo.Size()
 	logger.Debug("donwload file,fileInfo", "size", size)
-	if size != length {
+	//if size != length {
+	//	os.Remove(distFilePath)
+	//	return errors.New("download file size error")
+	//}
+
+	if size == 0 {
 		os.Remove(distFilePath)
 		return errors.New("download file size error")
 	}

@@ -9,4 +9,5 @@ const (
 	Validator    EUser = "validator"
 	FileTransfer EUser = "filetransfer"
 	SpeedTester  EUser = "speedtester"
+	Blog         EUser = "blog"
 )
