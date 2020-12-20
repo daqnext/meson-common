@@ -10,4 +10,5 @@ const (
 	FileTransfer EUser = "filetransfer"
 	SpeedTester  EUser = "speedtester"
 	Blog         EUser = "blog"
+	FileStore    EUser = "filestore"
 )

@@ -29,14 +29,25 @@ type ValidatorStateMsg struct {
 	MachineStateBaseMsg
 }
 
+type FileStoreStateMsg struct {
+	MachineStateBaseMsg
+}
+
 type DownLoadFileCmdMsg struct {
 	DownloadUrl  string `json:"downloadurl" binding:"required"`
 	TransferTag  string `json:"transfertag" binding:"required"`
 	BindNameHash string `json:"bindnamehash" binding:"required"`
 	FileNameHash string `json:"filenamehash" binding:"required"`
+	FileSize     int64  `json:"filesize"  binding:"required"`
 	Continent    string `json:"continent" binding:"required"`
 	Country      string `json:"country" binding:"required"`
 	Area         string `json:"area" binding:"required"`
+}
+
+type IpfsUploadUrlMsg struct {
+	BindNameHash string `json:"bindnamehash" binding:"required"`
+	FileNameHash string `json:"filenamehash" binding:"required"`
+	DownloadUrl  string `json:"download_url" binding:"required"`
 }
 
 type FileTransferDownLoadFinishMsg struct {
@@ -91,11 +102,22 @@ type SpeedReportMsg struct {
 }
 
 type SpeedTestCmdMsg struct {
-	MachineTag string `json:"machine_tag" binding:"required"`
-	Port       string `json:"port" binding:"required"`
-	FileName   string `json:"file_name" binding:"required"`
+	MachineTag     string `json:"machine_tag" binding:"required"`
+	Port           string `json:"port" binding:"required"`
+	FileName       string `json:"file_name" binding:"required"`
+	DownloadSecond int    `json:"download_second" binding:"required"`
 }
 
 type DeleteFolderCmdMsg struct {
 	FolderName string `json:"foldername" binding:"required"`
+}
+
+type UserUploadToFileStoreFinish struct {
+	UploadUserIp string `json:"uploadUserIp" binding:"required"`
+	//OriginUrl string `json:"originUrl" binding:"required"`
+	Size       int64  `json:"size" binding:"required"`
+	UserName   string `json:"userName" binding:"required"`
+	FileName   string `json:"fileName" binding:"required"`
+	FileHash   string `json:"fileHash" binding:"required"`
+	FileSystem string `json:"fileSystem" binding:"required"`
 }
