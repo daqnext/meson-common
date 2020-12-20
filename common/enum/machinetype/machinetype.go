@@ -7,4 +7,5 @@ const (
 	SpeedTester  EMachine = "SpeedTester"
 	FileTransfer EMachine = "FileTransfer"
 	Validator    EMachine = "Validator"
+	FileStore    EMachine = "FileStore"
 )

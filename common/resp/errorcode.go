@@ -50,6 +50,9 @@ const (
 	phoneNotExist    = 2103
 	mismatchPwd      = 2004
 
+	// /store/upload
+	fileExist = 5001
+
 	// client/newdomain
 	bindnameExist  = 1001
 	originurlExist = 1002
@@ -98,6 +101,9 @@ var (
 	ErrEmailNotExist    = newHTTPErr(emailNotExist, "email not exist")
 	ErrPhoneNotExist    = newHTTPErr(phoneNotExist, "phone not exist")
 	ErrPwd              = newHTTPErr(mismatchPwd, "username or password is wrong")
+
+	// /store/upload
+	ErrFileExist = newHTTPErr(fileExist, "file already exist")
 
 	// client/newdomain
 	ErrBindnameExist  = newHTTPErr(bindnameExist, "bindname already exist")

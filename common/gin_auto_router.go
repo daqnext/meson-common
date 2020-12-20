@@ -13,7 +13,7 @@ import (
 
 var ApiRouterMap = make(map[string]map[string]*gin.RouterGroup)
 var GinRouter = func() *gin.Engine {
-	//gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 
 	v := gin.Default()
 
