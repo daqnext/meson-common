@@ -9,10 +9,12 @@ import (
 	"github.com/daqnext/meson-common/common/logger"
 	"github.com/daqnext/meson-common/common/utils"
 	"io"
+	"net"
 	"net/http"
 	"os"
 	"path"
 	"sync"
+	"time"
 )
 
 type taskState string
@@ -160,7 +162,7 @@ func Run() {
 				if err != nil {
 					//task failed
 					//push to the end of the list
-					if task.TryTimes < 5 {
+					if task.TryTimes < 3 {
 						tryTimes := task.TryTimes + 1
 						AddTask(task.TargetUrl, task.OriginTag, task.Continent, task.Country, task.Area, task.BindNameHash, task.FileNameHash, tryTimes)
 					} else {
@@ -234,18 +236,35 @@ func RemoveFinishedTaskFromFile() ([]byte, error) {
 	return line, nil
 }
 
+func TimeoutDialer(cTimeout time.Duration, rwTimeout time.Duration) func(net, addr string) (c net.Conn, err error) {
+	return func(netw, addr string) (net.Conn, error) {
+		conn, err := net.DialTimeout(netw, addr, cTimeout)
+		if err != nil {
+			return nil, err
+		}
+		conn.SetDeadline(time.Now().Add(rwTimeout))
+		return conn, nil
+	}
+}
+
 func DownLoadFile(url string, distFilePath string) error {
+	connectTimeout := 10 * time.Second
+	readWriteTimeout := 3600 * 3 * time.Second
 	//http client
-	client := new(http.Client)
-	//head, err := client.Head(url)
-	//if err != nil {
-	//	return err
-	//}
-	//length := head.ContentLength
-	//logger.Debug("donwload file,head contentLength", "length", length)
+	c := http.Client{
+		Transport: &http.Transport{
+			Dial: TimeoutDialer(connectTimeout, readWriteTimeout),
+		},
+	}
 
 	//get
-	resp, err := client.Get(url)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		logger.Error("create request error", "err", err)
+		return err
+	}
+	//下载文件
+	response, err := c.Do(req)
 	if err != nil {
 		logger.Error("get file url "+url+" error", "err", err)
 		return err
@@ -261,11 +280,11 @@ func DownLoadFile(url string, distFilePath string) error {
 		return err
 	}
 	defer file.Close()
-	if resp.Body == nil {
+	if response.Body == nil {
 		return errors.New("body is null")
 	}
-	defer resp.Body.Close()
-	_, err = io.Copy(file, resp.Body)
+	defer response.Body.Close()
+	_, err = io.Copy(file, response.Body)
 	if err != nil {
 		os.Remove(distFilePath)
 		return err

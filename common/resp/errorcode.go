@@ -30,6 +30,7 @@ const (
 	malParams     = 103
 	tokenError    = 104
 	userForbidden = 105
+	lowerVersion  = 106
 	unknown       = 999
 
 	//cdnuser request
@@ -82,6 +83,7 @@ var (
 	ErrUnknown       = newHTTPErr(unknown, "unknown errorcode")
 	ErrTokenError    = newHTTPErr(tokenError, "user token error")
 	ErrUserForbidden = newHTTPErr(userForbidden, "user forbidden")
+	ErrLowerVersion  = newHTTPErr(lowerVersion, "your version need upgrade")
 	ErrMalParams     = newHTTPErr(malParams, "malformed request params")
 
 	//cdnuser request

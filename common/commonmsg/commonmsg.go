@@ -6,6 +6,7 @@ type MachineStateBaseMsg struct {
 	MemAvailable  uint64 `json:"mem_avail"`
 	DiskTotal     uint64 `json:"disk_total"`
 	DiskAvailable uint64 `json:"disk_avail"`
+	Version       string `json:"version"`
 }
 
 type TerminalStatesMsg struct {
