@@ -116,9 +116,10 @@ type DeleteFolderCmdMsg struct {
 type UserUploadToFileStoreFinish struct {
 	UploadUserIp string `json:"uploadUserIp" binding:"required"`
 	//OriginUrl string `json:"originUrl" binding:"required"`
-	Size       int64  `json:"size" binding:"required"`
-	UserName   string `json:"userName" binding:"required"`
-	FileName   string `json:"fileName" binding:"required"`
-	FileHash   string `json:"fileHash" binding:"required"`
-	FileSystem string `json:"fileSystem" binding:"required"`
+	Size           int64  `json:"size" binding:"required"`
+	UserName       string `json:"userName" binding:"required"`
+	OriginFileName string `json:"originFileName"`
+	FileName       string `json:"fileName" binding:"required"`
+	FileHash       string `json:"fileHash" binding:"required"`
+	FileSystem     string `json:"fileSystem" binding:"required"`
 }
