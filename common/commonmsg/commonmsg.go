@@ -1,12 +1,13 @@
 package commonmsg
 
 type MachineStateBaseMsg struct {
-	MacAddr       string `json:"mac_addr"`
-	MemTotal      uint64 `json:"mem_total"` // uint: byte
-	MemAvailable  uint64 `json:"mem_avail"`
-	DiskTotal     uint64 `json:"disk_total"`
-	DiskAvailable uint64 `json:"disk_avail"`
-	Version       string `json:"version"`
+	MacAddr       string  `json:"mac_addr"`
+	MemTotal      uint64  `json:"mem_total"` // uint: byte
+	MemAvailable  uint64  `json:"mem_avail"`
+	DiskTotal     uint64  `json:"disk_total"`
+	DiskAvailable uint64  `json:"disk_avail"`
+	Version       string  `json:"version"`
+	CpuUsage      float64 `json:"cpu_usage"`
 }
 
 type TerminalStatesMsg struct {
