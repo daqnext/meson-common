@@ -124,3 +124,11 @@ type UserUploadToFileStoreFinish struct {
 	FileHash       string `json:"fileHash" binding:"required"`
 	FileSystem     string `json:"fileSystem" binding:"required"`
 }
+
+type DBRecordMsg struct {
+	ARecordMap     map[string][4]byte
+	TxtRecordArray [][]string
+	CaaRecordArray []string
+	NSRecordArray  []string
+	CNameRecordMap map[string]string
+}

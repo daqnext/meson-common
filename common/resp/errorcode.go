@@ -33,6 +33,9 @@ const (
 	lowerVersion  = 106
 	unknown       = 999
 
+	//dns
+	hostNotExist = 112
+
 	//cdnuser request
 	bindnameNotExist    = 201
 	binddomainNotActive = 202
@@ -85,6 +88,9 @@ var (
 	ErrUserForbidden = newHTTPErr(userForbidden, "user forbidden")
 	ErrLowerVersion  = newHTTPErr(lowerVersion, "your version need upgrade")
 	ErrMalParams     = newHTTPErr(malParams, "malformed request params")
+
+	//DNS
+	ErrHostNotExist = newHTTPErr(hostNotExist, "host not exist")
 
 	//cdnuser request
 	ErrBindNameNotExist    = newHTTPErr(bindnameNotExist, "bind name not exist")
