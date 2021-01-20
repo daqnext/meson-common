@@ -3,11 +3,12 @@ package logger
 import (
 	"errors"
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 type LogFileWriter struct {
