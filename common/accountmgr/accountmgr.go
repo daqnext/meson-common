@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/daqnext/meson-common/common/logger"
-	"github.com/daqnext/meson-common/common/resp"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/daqnext/meson-common/common/logger"
+	"github.com/daqnext/meson-common/common/resp"
 )
 
 var Token string
