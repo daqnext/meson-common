@@ -218,8 +218,20 @@ func VersionCompare(a string, b string) int {
 	return 0
 }
 
+//mapinner
+func MapIntersection(mapBig map[string]int, mapSmall map[string]int) map[string]int {
+	outmap := map[string]int{}
+	for k, v := range mapSmall {
+		_, exist := mapBig[k]
+		if exist {
+			outmap[k] = v
+		}
+	}
+	return outmap
+}
+
 //inner
-func intersect(slice1, slice2 []string) []string {
+func Intersect(slice1, slice2 []string) []string {
 	m := make(map[string]int)
 	n := make([]string, 0)
 	for _, v := range slice1 {
@@ -238,7 +250,7 @@ func intersect(slice1, slice2 []string) []string {
 func difference(slice1, slice2 []string) []string {
 	m := make(map[string]int)
 	n := make([]string, 0)
-	inter := intersect(slice1, slice2)
+	inter := Intersect(slice1, slice2)
 	for _, v := range inter {
 		m[v]++
 	}
