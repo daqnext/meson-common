@@ -1,7 +1,6 @@
 package common
 
 import (
-	"github.com/daqnext/meson-common/common/utils"
 	"path"
 	"path/filepath"
 	"runtime"
@@ -9,6 +8,8 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	"github.com/daqnext/meson-common/common/utils"
 )
 
 var ApiRouterMap = make(map[string]map[string]*gin.RouterGroup)

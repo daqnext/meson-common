@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/daqnext/meson-common/common/logger"
-	"github.com/daqnext/meson-common/common/utils"
 	"io"
 	"net"
 	"net/http"
@@ -15,6 +13,9 @@ import (
 	"path"
 	"sync"
 	"time"
+
+	"github.com/daqnext/meson-common/common/logger"
+	"github.com/daqnext/meson-common/common/utils"
 )
 
 type taskState string
