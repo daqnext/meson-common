@@ -132,3 +132,23 @@ type DBRecordMsg struct {
 	NSRecordArray  []string
 	CNameRecordMap map[string]string
 }
+
+type ValidateStruct struct {
+	TerminalTag string
+	BindName    string
+	FileName    string
+	PartHash    string
+}
+
+type ValidateFailMsg struct {
+}
+
+type RedisConnectionDataMsg struct {
+	Host           string
+	Port           int
+	Auth           string
+	MaxPoolSize    int
+	MaxIdle        int
+	IdleTimeoutSec int
+	Db             int
+}
