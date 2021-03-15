@@ -55,7 +55,8 @@ const (
 	mismatchPwd      = 2004
 
 	// /store/upload
-	fileExist = 5001
+	fileExist        = 5001
+	noAliveFileStore = 5002
 
 	// client/newdomain
 	bindnameExist  = 1001
@@ -112,6 +113,7 @@ var (
 
 	// /store/upload
 	ErrFileExist = newHTTPErr(fileExist, "file already exist")
+	ErrNoMachine = newHTTPErr(noAliveFileStore, "no alive machine")
 
 	// client/newdomain
 	ErrBindnameExist  = newHTTPErr(bindnameExist, "bindname already exist")
