@@ -282,7 +282,7 @@ func bytes2str(b []byte) string {
 //import  "encoding/base64"
 //ip=>string
 func IpToTag(ip string) string {
-	result := []byte{'z', 'z', 'z', 'z', 'z', 'z', 'z', 'z', 'z', 'z', 'z', 'z', 'z', 'z', 'z'}
+	result := []byte{'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
 	for i, v := range ip {
 		switch v {
 		case '.':
@@ -296,16 +296,16 @@ func IpToTag(ip string) string {
 
 //string=>ip
 func TagToIp(str string) string {
-	result := make([]byte, 15, 15)
-	for i, v := range str {
+	result := ""
+	for _, v := range str {
 		switch v {
 		case 'k':
-			result[i] = '.'
-		case 'z':
+			result = result + "."
+		case 'x':
 			break
 		default:
-			result[i] = byte(v - 49)
+			result = result + string(byte(v-49))
 		}
 	}
-	return bytes2str(result)
+	return result
 }
