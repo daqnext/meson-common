@@ -15,6 +15,7 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+	"unsafe"
 )
 
 func GetStringHash(str string) string {
@@ -266,4 +267,45 @@ func difference(slice1, slice2 []string) []string {
 		}
 	}
 	return n
+}
+
+func str2bytes(s string) []byte {
+	x := (*[2]uintptr)(unsafe.Pointer(&s))
+	h := [3]uintptr{x[0], x[1], x[1]}
+	return *(*[]byte)(unsafe.Pointer(&h))
+}
+
+func bytes2str(b []byte) string {
+	return *(*string)(unsafe.Pointer(&b))
+}
+
+//import  "encoding/base64"
+//ip=>string
+func IpToTag(ip string) string {
+	result := []byte{'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'}
+	for i, v := range ip {
+		switch v {
+		case '.':
+			result[i] = 'k'
+		default:
+			result[i] = byte(v + 49)
+		}
+	}
+	return bytes2str(result)
+}
+
+//string=>ip
+func TagToIp(str string) string {
+	result := ""
+	for _, v := range str {
+		switch v {
+		case 'k':
+			result = result + "."
+		case 'x':
+			break
+		default:
+			result = result + string(byte(v-49))
+		}
+	}
+	return result
 }

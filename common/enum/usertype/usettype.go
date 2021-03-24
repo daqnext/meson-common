@@ -11,4 +11,6 @@ const (
 	SpeedTester  EUser = "speedtester"
 	Blog         EUser = "blog"
 	FileStore    EUser = "filestore"
+	CenterServer EUser = "centerserver"
+	RegionServer EUser = "regionserver"
 )

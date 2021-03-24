@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net"
 	"net/http"
+	"net/http/httputil"
 	"time"
 )
 
@@ -94,4 +96,16 @@ func Request(method string, url string, payload interface{}, header map[string]s
 		return nil, err
 	}
 	return content, nil
+}
+
+func ForwardRequest(ctx *gin.Context, scheme string, host string, path string) {
+	simpleHostProxy := httputil.ReverseProxy{
+		Director: func(req *http.Request) {
+			req.URL.Scheme = scheme
+			req.URL.Host = host
+			req.URL.Path = path
+			req.Host = host
+		},
+	}
+	simpleHostProxy.ServeHTTP(ctx.Writer, ctx.Request)
 }

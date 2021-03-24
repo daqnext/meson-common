@@ -35,6 +35,17 @@ type FileStoreStateMsg struct {
 	MachineStateBaseMsg
 }
 
+type SignMsg struct {
+	TimeStamp  int64  `json:"timestamp"`
+	MachineMac string `json:"mac"`
+	Sign       string `json:"sign"`
+}
+
+type TransferPauseMsg struct {
+	PauseTime int `json:"pausetime"`
+	SignMsg
+}
+
 type DownLoadFileCmdMsg struct {
 	DownloadUrl  string `json:"downloadurl" binding:"required"`
 	TransferTag  string `json:"transfertag" binding:"required"`
@@ -44,6 +55,7 @@ type DownLoadFileCmdMsg struct {
 	Continent    string `json:"continent" binding:"required"`
 	Country      string `json:"country" binding:"required"`
 	Area         string `json:"area" binding:"required"`
+	SignMsg
 }
 
 type IpfsUploadUrlMsg struct {
@@ -131,4 +143,24 @@ type DBRecordMsg struct {
 	CaaRecordArray []string
 	NSRecordArray  []string
 	CNameRecordMap map[string]string
+}
+
+type ValidateStruct struct {
+	TerminalTag string
+	BindName    string
+	FileName    string
+	PartHash    string
+}
+
+type ValidateFailMsg struct {
+}
+
+type RedisConnectionDataMsg struct {
+	Host           string
+	Port           int
+	Auth           string
+	MaxPoolSize    int
+	MaxIdle        int
+	IdleTimeoutSec int
+	Db             int
 }

@@ -8,4 +8,5 @@ const (
 	FileTransfer EMachine = "FileTransfer"
 	Validator    EMachine = "Validator"
 	FileStore    EMachine = "FileStore"
+	RegionServer EMachine = "RegionServer"
 )
