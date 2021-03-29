@@ -91,7 +91,7 @@ func GetDirSize(rootPath string) (uint64, error) {
 	dirSize := uint64(0)
 
 	readSize := func(path string, file os.FileInfo, err error) error {
-		if !file.IsDir() {
+		if err == nil && file != nil && !file.IsDir() {
 			dirSize += uint64(file.Size())
 		}
 
@@ -181,8 +181,6 @@ func DeleteEmptyFolders(path string) {
 	for _, dir := range emptys {
 		if err := os.Remove(dir); err != nil {
 			fmt.Println("delete folder error:", err.Error())
-		} else {
-
 		}
 	}
 }

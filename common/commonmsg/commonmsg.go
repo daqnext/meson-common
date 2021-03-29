@@ -1,5 +1,7 @@
 package commonmsg
 
+import "github.com/daqnext/meson-common/common/enum/machinetype"
+
 type MachineStateBaseMsg struct {
 	MacAddr       string  `json:"mac_addr"`
 	MemTotal      uint64  `json:"mem_total"` // uint: byte
@@ -163,4 +165,12 @@ type RedisConnectionDataMsg struct {
 	MaxIdle        int
 	IdleTimeoutSec int
 	Db             int
+}
+
+type PanicReportMsg struct {
+	MachineType machinetype.EMachine `json:"machineType" binding:"required"`
+	TimeStamp   int64
+	TerminalStatesMsg
+	Error string `json:"error" binding:"required"`
+	Stack string `json:"stack" binding:"required"`
 }
