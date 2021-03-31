@@ -14,7 +14,6 @@ import (
 	"time"
 
 	"github.com/daqnext/meson-common/common/logger"
-	"github.com/daqnext/meson-common/common/utils"
 )
 
 type DownloadInfo struct {
@@ -165,13 +164,6 @@ func LoopScanRunningTask() {
 }
 
 func InitTaskMgr(rootPath string) {
-	if !utils.Exists(rootPath) {
-		err := os.Mkdir(rootPath, 0700)
-		if err != nil {
-			logger.Fatal("tempfile dir create failed, please create dir " + rootPath + " by manual")
-		}
-	}
-
 	LevelDBInit()
 
 	for _, v := range channelArray {
