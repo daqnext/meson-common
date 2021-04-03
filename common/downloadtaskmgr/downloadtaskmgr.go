@@ -129,9 +129,6 @@ func LoopScanRunningTask() {
 
 			for _, v := range channelArray {
 				if task.SpeedKBs < float64(v.SpeedLimitKBs) {
-					//干掉任务 放入相应速度的队伍
-
-					//如果文件已经下载超过70% 就不取消
 					//if task.FileSize>0  {
 					//	finishPercent:=task.DownloadedSize*100/task.FileSize
 					//	if finishPercent>70 {
@@ -223,9 +220,9 @@ func AddGlobalDownloadTask(info *DownloadInfo) error {
 	newTask.TryTimes = 0
 
 	go func() {
-		//存入LevelDB
+		//save to LevelDB
 		SetTaskToLDB(newTask)
-		//进入总下载队列
+		//to task channel
 		globalDownloadTaskChan <- newTask
 	}()
 
@@ -283,10 +280,10 @@ func TaskFail(task *DownloadTask) {
 
 func TaskBreak(task *DownloadTask) {
 	logger.Debug("Task Break", "id", task.Id)
-	//从runningMap中删除任务
+	//delete from runningMap
 	DeleteDownloadingTask(task.Id)
 	task.Status = Task_UnStart
-	//将任务插入相应速度的队列
+	//add to queue
 	channel := task.DownloadChannel
 	if channel == nil {
 		logger.Error("Break Task not set channel,back to global list", "taskid", task.Id)
