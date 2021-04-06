@@ -17,6 +17,14 @@ type GinAutoRouter struct {
 
 var GinInstanceMap = map[string]*GinAutoRouter{}
 
+func New(name string) *GinAutoRouter {
+	newGinAutoRouter := &GinAutoRouter{}
+	newGinAutoRouter.GinInstance = gin.Default()
+	newGinAutoRouter.ApiRouterMap = make(map[string]map[string]*gin.RouterGroup)
+	GinInstanceMap[name] = newGinAutoRouter
+	return newGinAutoRouter
+}
+
 func GetGinInstance(name string) *GinAutoRouter {
 	instance, exist := GinInstanceMap[name]
 	if exist {
@@ -24,11 +32,7 @@ func GetGinInstance(name string) *GinAutoRouter {
 	}
 
 	//if not exist, new a gin.Engine
-	newGinAutoRouter := &GinAutoRouter{}
-	newGinAutoRouter.GinInstance = gin.Default()
-	newGinAutoRouter.ApiRouterMap = make(map[string]map[string]*gin.RouterGroup)
-
-	GinInstanceMap[name] = newGinAutoRouter
+	newGinAutoRouter := New(name)
 	return newGinAutoRouter
 }
 

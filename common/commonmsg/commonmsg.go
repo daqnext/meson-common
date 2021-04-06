@@ -18,6 +18,7 @@ type TerminalStatesMsg struct {
 	Port             string `json:"port"`
 	CdnDiskTotal     uint64 `json:"cdn_disk_total"`
 	CdnDiskAvailable uint64 `json:"cdn_disk_avail"`
+	MachineSetupTime string `json:"machine_install_time"`
 	MachineStateBaseMsg
 }
 
@@ -49,14 +50,14 @@ type TransferPauseMsg struct {
 }
 
 type DownLoadFileCmdMsg struct {
-	DownloadUrl  string `json:"downloadurl" binding:"required"`
-	TransferTag  string `json:"transfertag" binding:"required"`
-	BindNameHash string `json:"bindnamehash" binding:"required"`
-	FileNameHash string `json:"filenamehash" binding:"required"`
-	FileSize     int64  `json:"filesize"  binding:"required"`
-	Continent    string `json:"continent" binding:"required"`
-	Country      string `json:"country" binding:"required"`
-	Area         string `json:"area" binding:"required"`
+	DownloadUrl string `json:"downloadurl" binding:"required"`
+	//TransferTag  string `json:"transfertag" binding:"required"`
+	BindName  string `json:"bindname" binding:"required"`
+	FileName  string `json:"filename" binding:"required"`
+	FileSize  uint64 `json:"filesize"`
+	Continent string `json:"continent" binding:"required"`
+	Country   string `json:"country" binding:"required"`
+	Area      string `json:"area" binding:"required"`
 	SignMsg
 }
 

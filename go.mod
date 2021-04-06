@@ -6,6 +6,7 @@ require (
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
 	github.com/golang/protobuf v1.4.2 // indirect
+	github.com/imroc/req v0.3.0
 	github.com/sirupsen/logrus v1.7.0
 	github.com/syndtr/goleveldb v1.0.0
 	golang.org/x/sys v0.0.0-20200824131525-c12d262b63d8 // indirect
