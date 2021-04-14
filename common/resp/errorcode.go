@@ -40,6 +40,7 @@ const (
 	bindnameNotExist    = 201
 	binddomainNotActive = 202
 	notEnoughBalance    = 203
+	fileNameError       = 204
 
 	//register
 	usernameExist = 2001
@@ -97,6 +98,7 @@ var (
 	ErrBindNameNotExist    = newHTTPErr(bindnameNotExist, "bind name not exist")
 	ErrBindDomainNotActive = newHTTPErr(binddomainNotActive, "bind domain not active")
 	ErrNotEnoughBalance    = newHTTPErr(notEnoughBalance, "not enough balance")
+	ErrFileNameError       = newHTTPErr(fileNameError, "file name error")
 
 	//register
 	ErrUsernameExist = newHTTPErr(usernameExist, "username already exist")

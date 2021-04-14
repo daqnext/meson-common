@@ -13,13 +13,36 @@ type MachineStateBaseMsg struct {
 }
 
 type TerminalStatesMsg struct {
+	OS               string  `json:"os"`
+	CPU              string  `json:"cpu"` // cpu model name
+	Port             string  `json:"port"`
+	NetInMbs         float64 `json:"net_in_mbs"`
+	NetOutMbs        float64 `json:"net_out_mbs"`
+	CdnDiskTotal     uint64  `json:"cdn_disk_total"`
+	CdnDiskAvailable uint64  `json:"cdn_disk_avail"`
+	MachineSetupTime string  `json:"machine_setup_time"`
+	MachineStateBaseMsg
+}
+
+type TerminalInfoMsg struct {
 	OS               string `json:"os"`
 	CPU              string `json:"cpu"` // cpu model name
 	Port             string `json:"port"`
-	CdnDiskTotal     uint64 `json:"cdn_disk_total"`
-	CdnDiskAvailable uint64 `json:"cdn_disk_avail"`
-	MachineSetupTime string `json:"machine_install_time"`
-	MachineStateBaseMsg
+	MachineSetupTime string `json:"machine_setup_time"`
+	MacAddr          string `json:"mac_addr"`
+}
+
+type TerminalHeatBeatMsg struct {
+	MemTotal         uint64  `json:"mem_total"` // uint: byte
+	MemAvailable     uint64  `json:"mem_avail"`
+	DiskTotal        uint64  `json:"disk_total"`
+	DiskAvailable    uint64  `json:"disk_avail"`
+	CdnDiskTotal     uint64  `json:"cdn_disk_total"`
+	CdnDiskAvailable uint64  `json:"cdn_disk_avail"`
+	NetInMbs         float64 `json:"net_in_mbs"`
+	NetOutMbs        float64 `json:"net_out_mbs"`
+	Version          string  `json:"version"`
+	CpuUsage         float64 `json:"cpu_usage"`
 }
 
 type FileTransferStateMsg struct {
@@ -51,14 +74,31 @@ type TransferPauseMsg struct {
 
 type DownLoadFileCmdMsg struct {
 	DownloadUrl string `json:"downloadurl" binding:"required"`
-	//TransferTag  string `json:"transfertag" binding:"required"`
-	BindName  string `json:"bindname" binding:"required"`
-	FileName  string `json:"filename" binding:"required"`
-	FileSize  uint64 `json:"filesize"`
-	Continent string `json:"continent" binding:"required"`
-	Country   string `json:"country" binding:"required"`
-	Area      string `json:"area" binding:"required"`
+	BindName    string `json:"bindname" binding:"required"`
+	FileName    string `json:"filename" binding:"required"`
+	FileSize    uint64 `json:"filesize"`
+	Continent   string `json:"continent" binding:"required"`
+	Country     string `json:"country" binding:"required"`
+	Area        string `json:"area" binding:"required"`
+	CacheTime   int64  `json:"cache_time"`
 	SignMsg
+}
+
+type DeleteFileCmdMsg struct {
+	BindName string `json:"bindname" binding:"required"`
+	FileName string `json:"filename" binding:"required"`
+	SignMsg
+}
+
+type CrossRegionDownloadFileMsg struct {
+	DownloadUrl string `json:"downloadurl" binding:"required"`
+	BindName    string `json:"bindname" binding:"required"`
+	FileName    string `json:"filename" binding:"required"`
+	FileSize    uint64 `json:"filesize"`
+	Continent   string `json:"continent" binding:"required"`
+	Country     string `json:"country" binding:"required"`
+	Area        string `json:"area" binding:"required"`
+	Region      string `json:"region" binding:"required"`
 }
 
 type IpfsUploadUrlMsg struct {
@@ -87,7 +127,7 @@ type FileTransferDownLoadFailedMsg struct {
 }
 
 type TerminalDownloadFinishMsg struct {
-	TransferTag  string `json:"transfertag" binding:"required"`
+	//TransferTag  string `json:"transfertag" binding:"required"`
 	BindNameHash string `json:"bindnamehash" binding:"required"`
 	FileNameHash string `json:"filenamehash" binding:"required"`
 	Continent    string `json:"continent" binding:"required"`
@@ -96,7 +136,7 @@ type TerminalDownloadFinishMsg struct {
 }
 
 type TerminalDownloadFailedMsg struct {
-	TransferTag  string `json:"transfertag" binding:"required"`
+	//TransferTag  string `json:"transfertag" binding:"required"`
 	BindNameHash string `json:"bindnamehash" binding:"required"`
 	FileNameHash string `json:"filenamehash" binding:"required"`
 	Continent    string `json:"continent" binding:"required"`
@@ -120,6 +160,7 @@ type SpeedReportMsg struct {
 
 type SpeedTestCmdMsg struct {
 	MachineTag     string `json:"machine_tag" binding:"required"`
+	MacAddr        string `json:"machine_mac" binding:"required"`
 	Port           string `json:"port" binding:"required"`
 	FileName       string `json:"file_name" binding:"required"`
 	DownloadSecond int    `json:"download_second" binding:"required"`
@@ -171,6 +212,7 @@ type RedisConnectionDataMsg struct {
 type PanicReportMsg struct {
 	MachineType machinetype.EMachine `json:"machineType" binding:"required"`
 	TimeStamp   int64
+	Region      string
 	TerminalStatesMsg
 	Error string `json:"error" binding:"required"`
 	Stack string `json:"stack" binding:"required"`
