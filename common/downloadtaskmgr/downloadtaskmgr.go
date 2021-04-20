@@ -17,14 +17,16 @@ import (
 )
 
 type DownloadInfo struct {
-	TargetUrl string
-	OriginTag string
-	BindName  string
-	FileName  string
-	Continent string
-	Country   string
-	Area      string
-	SavePath  string
+	TargetUrl    string
+	OriginTag    string
+	BindName     string
+	FileName     string
+	Continent    string
+	Country      string
+	Area         string
+	SavePath     string
+	DownloadType string
+	OriginRegion string
 }
 
 type TaskStatus string

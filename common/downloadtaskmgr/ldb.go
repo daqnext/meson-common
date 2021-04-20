@@ -4,14 +4,16 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"github.com/daqnext/meson-common/common/logger"
+	"github.com/daqnext/meson-common/common/runpath"
 	"github.com/daqnext/meson-common/common/utils"
 	"github.com/syndtr/goleveldb/leveldb"
 	"os"
+	"path/filepath"
 	"sync"
 )
 
-const LDBPath = "./downloadldb"
-const LDBFile = "./downloadldb/index"
+var LDBPath = filepath.Join(runpath.RunPath, "./downloadldb")
+var LDBFile = filepath.Join(runpath.RunPath, "./downloadldb/index")
 
 func LevelDBInit() {
 	if !utils.Exists(LDBPath) {
