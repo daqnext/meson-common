@@ -3,6 +3,7 @@ package logger
 import (
 	"errors"
 	"fmt"
+	"github.com/daqnext/meson-common/common/utils"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -140,6 +141,10 @@ func DeleteLog(path string, passTimeSec int64) {
 	nowTime := time.Now().Unix()
 	//default log
 	deleteFileNames := []string{}
+	if !utils.Exists(path) {
+		Debug("DeleteLog folder not exist", "path", path)
+		return
+	}
 	rd, err := ioutil.ReadDir(path)
 	if err != nil {
 		Error("read dir fail", "err", err, "dir", path)
