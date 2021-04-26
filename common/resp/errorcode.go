@@ -77,8 +77,8 @@ const (
 	setIndexFailed = 3002
 	fileNotExist   = 3003
 
-	// ================= FileTransfer part =================
 	addDownloadTaskFailed = 4001
+	noEnoughSpace         = 4002
 )
 
 var (
@@ -136,5 +136,6 @@ var (
 	ErrFileNotExist = newHTTPErr(fileNotExist, "file not exist in local index")
 
 	// ================= FileTransfer part =================
+	ErrNoSpace               = newHTTPErr(noEnoughSpace, "not enough space")
 	ErrAddDownloadTaskFailed = newHTTPErr(addDownloadTaskFailed, "add download task failed")
 )

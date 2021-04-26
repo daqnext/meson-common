@@ -27,6 +27,7 @@ type DownloadInfo struct {
 	SavePath     string
 	DownloadType string
 	OriginRegion string
+	TargetRegion string
 }
 
 type TaskStatus string
@@ -217,6 +218,9 @@ func AddGlobalDownloadTask(info *DownloadInfo) error {
 	newTask.Continent = info.Continent
 	newTask.Country = info.Country
 	newTask.Area = info.Area
+	newTask.DownloadType = info.DownloadType
+	newTask.OriginRegion = info.OriginRegion
+	newTask.TargetRegion = info.TargetRegion
 	newTask.SavePath = info.SavePath
 	newTask.Status = Task_UnStart
 	newTask.TryTimes = 0

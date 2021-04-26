@@ -63,6 +63,7 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 			err := os.Mkdir(p.RootDir+"log", 0777)
 			if err != nil {
 				fmt.Println(err)
+				return 0, errors.New("Mkdir " + p.RootDir + "log error")
 			}
 		} else {
 			for _, fi := range rd {
@@ -83,9 +84,17 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 		}
 
 		//open log file
-		p.file, _ = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
+		p.file, err = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
 			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0777)
-		info, _ := p.file.Stat()
+		if err != nil {
+			fmt.Println(err)
+			return 0, errors.New("OpenFile " + p.RootDir + "log" + "/" + p.lastDate + "-" + fmt.Sprintf("%04d", p.lastCount) + ".log error")
+		}
+		info, err := p.file.Stat()
+		if err != nil {
+			fmt.Println(err)
+			return 0, errors.New("fileStat " + p.RootDir + "log" + "/" + p.lastDate + "-" + fmt.Sprintf("%04d", p.lastCount) + ".log error")
+		}
 		p.size = info.Size()
 	}
 	n, e := p.file.Write(data)
@@ -98,8 +107,12 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 			p.OnLogFileChange(oldFileName)
 		}
 		//fmt.Println("log file full")
-		p.file, _ = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
+		p.file, err = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
 			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0777)
+		if err != nil {
+			fmt.Println(err)
+			return 0, errors.New("OpenFile " + p.RootDir + "log" + "/" + p.lastDate + "-" + fmt.Sprintf("%04d", p.lastCount) + ".log error")
+		}
 		p.size = 0
 		p.lastCount++
 	}
@@ -112,8 +125,12 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 		//fmt.Println("log file date change")
 		p.lastDate = time.Now().Format("2006-01-02")
 		p.lastCount = 1
-		p.file, _ = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
+		p.file, err = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
 			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0777)
+		if err != nil {
+			fmt.Println(err)
+			return 0, errors.New("OpenFile " + p.RootDir + "log" + "/" + p.lastDate + "-" + fmt.Sprintf("%04d", p.lastCount) + ".log error")
+		}
 		p.size = 0
 	}
 	return n, e
@@ -126,11 +143,16 @@ func DeleteLog(path string, passTimeSec int64) {
 	rd, err := ioutil.ReadDir(path)
 	if err != nil {
 		Error("read dir fail", "err", err, "dir", path)
+		return
 	}
 	for _, fi := range rd {
 		if !fi.IsDir() {
 			name := fi.Name()
-			dateStr := name[:10]
+			length := 10
+			if len(name) < 10 {
+				length = len(name)
+			}
+			dateStr := name[:length]
 			timeStamp, err := time.Parse("2006-01-02", dateStr)
 			if err != nil {
 				Error("DeleteTimeoutLog time.Parse error", "err", err)
