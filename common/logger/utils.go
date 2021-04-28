@@ -24,7 +24,7 @@ type LogFileWriter struct {
 	OnLogFileChange func(fileName string)
 }
 
-// Convert the slice to logrus.Fields
+// SliceToFields Convert the slice to logrus.Fields
 func SliceToFields(params []interface{}) logrus.Fields {
 	if len(params)%2 != 0 {
 		logrus.Error("Log parameter length is wrong!")
