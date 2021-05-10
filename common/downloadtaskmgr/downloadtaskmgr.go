@@ -65,6 +65,8 @@ var globalDownloadTaskChan = make(chan *DownloadTask, GlobalDownloadTaskChanSize
 var onTaskSuccess func(task *DownloadTask)
 var onTaskFailed func(task *DownloadTask)
 var panicCatcher func()
+var onDownloadStart func(task *DownloadTask)
+var onDownloading func(task *DownloadTask, usedTimeSec int)
 
 type ExecResult string
 
@@ -245,6 +247,14 @@ func SetOnTaskSuccess(function func(task *DownloadTask)) {
 
 func SetOnTaskFailed(function func(task *DownloadTask)) {
 	onTaskFailed = function
+}
+
+func SetOnDownloading(function func(task *DownloadTask, usedTimeSec int)) {
+	onDownloading = function
+}
+
+func SetOnDownloadStart(function func(task *DownloadTask)) {
+	onDownloadStart = function
 }
 
 func GetDownloadTaskList() []*DownloadTask {
@@ -454,6 +464,10 @@ func ExecDownloadTask(task *DownloadTask) ExecResult {
 		logger.Error("get file url "+url+" error", "err", err)
 		return Fail
 	}
+	if response.StatusCode != 200 {
+		logger.Error("get file url "+url+" error", "err", err, "statusCode", response.StatusCode)
+		return Fail
+	}
 	//creat folder and file
 	distDir := path.Dir(distFilePath)
 	err = os.MkdirAll(distDir, os.ModePerm)
@@ -472,6 +486,9 @@ func ExecDownloadTask(task *DownloadTask) ExecResult {
 	defer response.Body.Close()
 
 	task.StartTime = time.Now().Unix()
+	if onDownloadStart != nil {
+		go onDownloadStart(task)
+	}
 
 	_, err = copyBuffer(file, response.Body, nil, task)
 
@@ -531,6 +548,7 @@ func copyBuffer(dst io.Writer, src io.Reader, buf []byte, task *DownloadTask) (w
 	}
 	go func() {
 		for {
+			time.Sleep(500 * time.Millisecond) //for test
 			nr, er := srcWithCloser.Read(buf)
 			if nr > 0 {
 				nw, ew := dst.Write(buf[0:nr])
@@ -566,7 +584,6 @@ func copyBuffer(dst io.Writer, src io.Reader, buf []byte, task *DownloadTask) (w
 				}
 				break
 			}
-
 		}
 		stop = true
 	}()
@@ -591,11 +608,11 @@ func copyBuffer(dst io.Writer, src io.Reader, buf []byte, task *DownloadTask) (w
 			useTime := count * 1000
 			speed := float64(written) / float64(useTime)
 			task.SpeedKBs = speed
-			//if count%5==0 {
-			//	fmt.Printf("[%d] Speed %f / %s KBs \n",task.Id, speed, spaceTime.String())
-			//}
+			//reportDownloadState
+			if onDownloading != nil {
+				go onDownloading(task, useTime)
+			}
 
-			//lastWtn = written
 		}
 	}
 	return written, err

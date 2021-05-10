@@ -108,11 +108,12 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 			p.OnLogFileChange(oldFileName)
 		}
 		//fmt.Println("log file full")
-		p.file, err = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount)+".log",
+
+		p.file, err = os.OpenFile(p.RootDir+"log"+"/"+p.lastDate+"-"+fmt.Sprintf("%04d", p.lastCount+1)+".log",
 			os.O_WRONLY|os.O_APPEND|os.O_CREATE|os.O_SYNC, 0777)
 		if err != nil {
 			fmt.Println(err)
-			return 0, errors.New("OpenFile " + p.RootDir + "log" + "/" + p.lastDate + "-" + fmt.Sprintf("%04d", p.lastCount) + ".log error")
+			return 0, errors.New("OpenFile " + p.RootDir + "log" + "/" + p.lastDate + "-" + fmt.Sprintf("%04d", p.lastCount+1) + ".log error")
 		}
 		p.size = 0
 		p.lastCount++

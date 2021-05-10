@@ -164,6 +164,23 @@ type TerminalDownloadFailedMsg struct {
 	FileSize         uint64 `json:"filesize"`
 }
 
+type TerminalDownloadProcessMsg struct {
+	BindName         string `json:"bindname"`
+	FileName         string `json:"filename"`
+	RequestContinent string `json:"continent"`
+	RequestCountry   string `json:"country"`
+	RequestArea      string `json:"area"`
+	Downloaded       int64  `json:"downloaded"`
+}
+
+type TerminalDownloadStartMsg struct {
+	BindName         string `json:"bindname"`
+	FileName         string `json:"filename"`
+	RequestContinent string `json:"continent"`
+	RequestCountry   string `json:"country"`
+	RequestArea      string `json:"area"`
+}
+
 type TerminalRequestDeleteFilesMsg struct {
 	Files []string `json:"files" binding:"required"`
 }
