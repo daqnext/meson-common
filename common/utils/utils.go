@@ -13,6 +13,7 @@ import (
 	"os/exec"
 	"path"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 	"unsafe"
@@ -306,4 +307,10 @@ func TagToIp(str string) string {
 		}
 	}
 	return result
+}
+
+func VerifyEmailFormat(email string) bool {
+	pattern := `\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*` //匹配电子邮箱
+	reg := regexp.MustCompile(pattern)
+	return reg.MatchString(email)
 }

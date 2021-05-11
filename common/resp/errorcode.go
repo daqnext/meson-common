@@ -43,11 +43,12 @@ const (
 	fileNameError       = 204
 
 	//register
-	usernameExist = 2001
-	emailExist    = 2002
-	phoneExist    = 2003
-	vcodeError    = 2004
-	usertypeError = 2005
+	usernameExist    = 2001
+	emailExist       = 2002
+	phoneExist       = 2003
+	vcodeError       = 2004
+	usertypeError    = 2005
+	emialFormatError = 2006
 
 	//login
 	usernameNotExist = 2101
@@ -101,11 +102,12 @@ var (
 	ErrFileNameError       = newHTTPErr(fileNameError, "file name error")
 
 	//register
-	ErrUsernameExist = newHTTPErr(usernameExist, "username already exist")
-	ErrEmailExist    = newHTTPErr(emailExist, "email already exist")
-	ErrPhoneExist    = newHTTPErr(phoneExist, "phone already exist")
-	ErrVcodeError    = newHTTPErr(vcodeError, "verification code error")
-	ErrUserTypeError = newHTTPErr(usertypeError, "usertype error")
+	ErrUsernameExist    = newHTTPErr(usernameExist, "username already exist")
+	ErrEmailExist       = newHTTPErr(emailExist, "email already exist")
+	ErrPhoneExist       = newHTTPErr(phoneExist, "phone already exist")
+	ErrVcodeError       = newHTTPErr(vcodeError, "verification code error")
+	ErrUserTypeError    = newHTTPErr(usertypeError, "usertype error")
+	ErrEmailFormatError = newHTTPErr(emialFormatError, "email format error")
 
 	//login
 	ErrUsernameNotExist = newHTTPErr(usernameNotExist, "username not exist")
