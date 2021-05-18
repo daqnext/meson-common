@@ -25,13 +25,15 @@ func newHTTPErr(code code, msg string) *httpErr {
 const (
 	success code = 0
 	//common errorcode
-	unauthorized  = 101
-	failure       = 102
-	malParams     = 103
-	tokenError    = 104
-	userForbidden = 105
-	lowerVersion  = 106
-	unknown       = 999
+	unauthorized    = 101
+	failure         = 102
+	malParams       = 103
+	tokenError      = 104
+	userForbidden   = 105
+	lowerVersion    = 106
+	captchaError    = 107
+	captchaCoolDown = 108
+	unknown         = 999
 
 	//dns
 	hostNotExist = 112
@@ -84,13 +86,15 @@ const (
 
 var (
 	//common errorcode
-	ErrUserUnAuth    = newHTTPErr(unauthorized, "user unauthorized")
-	ErrInternalError = newHTTPErr(failure, "server internal errorcode")
-	ErrUnknown       = newHTTPErr(unknown, "unknown errorcode")
-	ErrTokenError    = newHTTPErr(tokenError, "user token error")
-	ErrUserForbidden = newHTTPErr(userForbidden, "user forbidden")
-	ErrLowerVersion  = newHTTPErr(lowerVersion, "your version need upgrade")
-	ErrMalParams     = newHTTPErr(malParams, "malformed request params")
+	ErrUserUnAuth      = newHTTPErr(unauthorized, "user unauthorized")
+	ErrInternalError   = newHTTPErr(failure, "server internal errorcode")
+	ErrUnknown         = newHTTPErr(unknown, "unknown errorcode")
+	ErrTokenError      = newHTTPErr(tokenError, "user token error")
+	ErrUserForbidden   = newHTTPErr(userForbidden, "user forbidden")
+	ErrLowerVersion    = newHTTPErr(lowerVersion, "your version need upgrade")
+	ErrCaptcha         = newHTTPErr(captchaError, "captcha wrong")
+	ErrCaptchaCoolDown = newHTTPErr(captchaCoolDown, "captcha cooldown")
+	ErrMalParams       = newHTTPErr(malParams, "malformed request params")
 
 	//DNS
 	ErrHostNotExist = newHTTPErr(hostNotExist, "host not exist")

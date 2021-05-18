@@ -18,7 +18,6 @@ import (
 
 type DownloadInfo struct {
 	TargetUrl    string
-	OriginTag    string
 	BindName     string
 	FileName     string
 	Continent    string
@@ -187,7 +186,6 @@ func InitTaskMgr(rootPath string) {
 	for _, v := range unFinishedTask {
 		info := &DownloadInfo{}
 		info.TargetUrl = v.TargetUrl
-		info.OriginTag = v.OriginTag
 		info.BindName = v.BindName
 		info.FileName = v.FileName
 		info.Continent = v.Continent
@@ -214,7 +212,6 @@ func AddGlobalDownloadTask(info *DownloadInfo) error {
 	newTask := &DownloadTask{}
 	newTask.Id = currentId
 	newTask.TargetUrl = info.TargetUrl
-	newTask.OriginTag = info.OriginTag
 	newTask.BindName = info.BindName
 	newTask.FileName = info.FileName
 	newTask.Continent = info.Continent

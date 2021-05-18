@@ -75,7 +75,6 @@ type TransferPauseMsg struct {
 
 type CrossRegionTransferFileCmdMsg struct {
 	DownloadUrl      string `json:"downloadurl" binding:"required"`
-	TransferTag      string `json:"transfertag"`
 	BindName         string `json:"bindname" binding:"required"`
 	FileName         string `json:"filename" binding:"required"`
 	FileSize         uint64 `json:"filesize"`
@@ -117,16 +116,15 @@ type IpfsUploadUrlMsg struct {
 
 type DownLoadFileCmdMsg struct {
 	DownloadUrl      string `json:"downloadurl" binding:"required"`
-	TransferTag      string `json:"transfertag"`
 	BindName         string `json:"bindname" binding:"required"`
 	FileName         string `json:"filename" binding:"required"`
-	FileSize         int64  `json:"filesize"`
+	FileSize         uint64 `json:"filesize"`
 	RequestContinent string `json:"continent"`
 	RequestCountry   string `json:"country"`
 	RequestArea      string `json:"area"`
 	DownloadType     string `json:"downloadType"`
 	OriginRegion     string `json:"originRegion"`
-	TargetRegion     string `json:"targetRegion"`
+	//TargetRegion     string `json:"targetRegion"`
 	SignMsg
 }
 
@@ -137,7 +135,6 @@ type DeleteFileCmdMsg struct {
 }
 
 type TerminalDownloadFinishMsg struct {
-	TransferTag      string `json:"transfertag"`
 	BindName         string `json:"bindname" binding:"required"`
 	FileName         string `json:"filename" binding:"required"`
 	RequestContinent string `json:"continent"`
@@ -145,13 +142,12 @@ type TerminalDownloadFinishMsg struct {
 	RequestArea      string `json:"area"`
 	DownloadType     string `json:"downloadType"`
 	OriginRegion     string `json:"originRegion"`
-	TargetRegion     string `json:"targetRegion"`
-	DownloadUrl      string `json:"downloadUrl"`
-	FileSize         uint64 `json:"filesize"`
+	//TargetRegion     string `json:"targetRegion"`
+	DownloadUrl string `json:"downloadUrl"`
+	FileSize    uint64 `json:"filesize"`
 }
 
 type TerminalDownloadFailedMsg struct {
-	TransferTag      string `json:"transfertag" `
 	BindName         string `json:"bindname" binding:"required"`
 	FileName         string `json:"filename" binding:"required"`
 	RequestContinent string `json:"continent"`
@@ -159,9 +155,9 @@ type TerminalDownloadFailedMsg struct {
 	RequestArea      string `json:"area"`
 	DownloadType     string `json:"downloadType"`
 	OriginRegion     string `json:"originRegion"`
-	TargetRegion     string `json:"targetRegion"`
-	DownloadUrl      string `json:"downloadUrl"`
-	FileSize         uint64 `json:"filesize"`
+	//TargetRegion     string `json:"targetRegion"`
+	DownloadUrl string `json:"downloadUrl"`
+	FileSize    uint64 `json:"filesize"`
 }
 
 type TerminalDownloadProcessMsg struct {
