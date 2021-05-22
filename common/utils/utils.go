@@ -322,7 +322,8 @@ func GetUrlIp(rawUrl string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	ips, err := sysnet.LookupHost(u.Host)
+	host := strings.Split(u.Host, ":")
+	ips, err := sysnet.LookupHost(host[0])
 	if err != nil {
 		return "", err
 	}

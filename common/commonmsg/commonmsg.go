@@ -21,6 +21,7 @@ type TerminalStatesMsg struct {
 	CdnDiskTotal     uint64     `json:"cdn_disk_total"`
 	CdnDiskAvailable uint64     `json:"cdn_disk_avail"`
 	MachineSetupTime string     `json:"machine_setup_time"`
+	SequenceId       int        `json:"sequence_id"`
 	MachineStateBaseMsg
 }
 
