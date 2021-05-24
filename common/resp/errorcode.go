@@ -56,6 +56,8 @@ const (
 	usernameNotExist = 2101
 	emailNotExist    = 2102
 	phoneNotExist    = 2103
+	emailError       = 2104
+	phoneError       = 2015
 	mismatchPwd      = 2004
 
 	// /store/upload
@@ -117,6 +119,8 @@ var (
 	ErrUsernameNotExist = newHTTPErr(usernameNotExist, "username not exist")
 	ErrEmailNotExist    = newHTTPErr(emailNotExist, "email not exist")
 	ErrPhoneNotExist    = newHTTPErr(phoneNotExist, "phone not exist")
+	ErrPhoneError       = newHTTPErr(phoneError, "phone error")
+	ErrEmailError       = newHTTPErr(emailError, "email error")
 	ErrPwd              = newHTTPErr(mismatchPwd, "username or password is wrong")
 
 	// /store/upload
