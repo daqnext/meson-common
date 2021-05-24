@@ -57,7 +57,7 @@ const (
 	emailNotExist    = 2102
 	phoneNotExist    = 2103
 	emailError       = 2104
-	phoneError       = 2015
+	phoneError       = 2105
 	mismatchPwd      = 2004
 
 	// /store/upload
