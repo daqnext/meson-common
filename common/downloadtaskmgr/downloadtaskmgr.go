@@ -327,7 +327,7 @@ func StartTask(task *DownloadTask) {
 		TaskSuccess(task)
 	case Fail:
 		//logger.Debug("download task fail", "id", task.Id)
-		if task.TryTimes > 3 {
+		if task.TryTimes >= 2 {
 			TaskFail(task)
 		} else {
 			//继续放入任务队列

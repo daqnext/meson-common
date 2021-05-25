@@ -251,3 +251,8 @@ type PanicReportMsg struct {
 	Error string `json:"error" binding:"required"`
 	Stack string `json:"stack" binding:"required"`
 }
+
+type TrackDomainMsg struct {
+	TerminalDomain string
+	CdnTrackDomain string
+}
