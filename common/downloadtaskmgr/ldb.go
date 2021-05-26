@@ -17,7 +17,7 @@ var LDBFile = filepath.Join(runpath.RunPath, "./downloadldb/index")
 
 func LevelDBInit() {
 	if !utils.Exists(LDBPath) {
-		err := os.Mkdir(LDBPath, 0700)
+		err := os.Mkdir(LDBPath, 0777)
 		if err != nil {
 			logger.Fatal("file dir create failed, please create dir " + LDBPath + " by manual")
 		}

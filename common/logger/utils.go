@@ -3,9 +3,11 @@ package logger
 import (
 	"errors"
 	"fmt"
+	"github.com/daqnext/meson-common/common/runpath"
 	"github.com/daqnext/meson-common/common/utils"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -48,7 +50,8 @@ func (p *LogFileWriter) Write(data []byte) (n int, err error) {
 		return 0, errors.New("logFileWriter is nil")
 	}
 	if p.RootDir == "" {
-		p.RootDir = "./"
+		logPath := filepath.Join(runpath.RunPath, "./")
+		p.RootDir = logPath
 	}
 	if p.MaxSize == 0 {
 		p.MaxSize = 1024 * 512 //512k
