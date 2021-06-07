@@ -13,4 +13,5 @@ const (
 	FileStore    EUser = "filestore"
 	CenterServer EUser = "centerserver"
 	RegionServer EUser = "regionserver"
+	LiveServer   EUser = "liveserver"
 )

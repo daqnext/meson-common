@@ -17,5 +17,6 @@ const FileTransferRunPort = "9092"
 const ValidatorRunPort = "9093"
 const SpeedTesterRunPort = "9094"
 const FileStoreRunPort = "9095"
+const LiveServerrRunPort = "9096"
 
 const RedirectMark = "-redirecter456gt"

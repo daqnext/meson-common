@@ -77,6 +77,10 @@ const (
 	// t/bindname/*action
 	fileLinkExpired = 2201
 
+	// livestreaming
+	noLiveServer         = 2301
+	liveStreamingUserErr = 2302
+
 	// ================= terminal part =================
 	saveFileFailed = 3001
 	setIndexFailed = 3002
@@ -139,6 +143,10 @@ var (
 
 	// t/bindname/*action
 	ErrFileLinkExpired = newHTTPErr(fileLinkExpired, "file link expired")
+
+	// livestreaming
+	ErrNoLiveServer         = newHTTPErr(noLiveServer, "no live server")
+	ErrLiveStreamingUserErr = newHTTPErr(liveStreamingUserErr, "user error")
 
 	// ================= terminal part =================
 	ErrSaveFile     = newHTTPErr(saveFileFailed, "failed to save file")

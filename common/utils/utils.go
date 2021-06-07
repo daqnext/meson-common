@@ -21,6 +21,12 @@ import (
 	"unsafe"
 )
 
+var r *rand.Rand
+
+func init() {
+	r = rand.New(rand.NewSource(time.Now().Unix()))
+}
+
 func GetStringHash(str string) string {
 	h := md5.New()
 	h.Write([]byte(str))
@@ -331,4 +337,32 @@ func GetUrlIp(rawUrl string) (string, error) {
 		return "", errors.New("GetUrlIp net.LookupHost get no ip")
 	}
 	return ips[0], nil
+}
+
+func RandString(len int) string {
+	bytes := make([]byte, len)
+	for i := 0; i < len; i++ {
+		b := r.Intn(26) + 97
+		bytes[i] = byte(b)
+	}
+	return string(bytes)
+}
+
+func chunkSlice(slice []interface{}, chunkSize int) [][]interface{} {
+	var chunks [][]interface{}
+	for {
+		if len(slice) == 0 {
+			break
+		}
+
+		// necessary check to avoid slicing beyond
+		// slice capacity
+		if len(slice) < chunkSize {
+			chunkSize = len(slice)
+		}
+
+		chunks = append(chunks, slice[0:chunkSize])
+		slice = slice[chunkSize:]
+	}
+	return chunks
 }

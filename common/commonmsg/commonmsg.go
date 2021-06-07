@@ -62,6 +62,10 @@ type FileStoreStateMsg struct {
 	MachineStateBaseMsg
 }
 
+type LiveServerStateMsg struct {
+	MachineStateBaseMsg
+}
+
 type SignMsg struct {
 	TimeStamp  int64  `json:"timestamp"`
 	MachineMac string `json:"mac"`
@@ -255,4 +259,10 @@ type PanicReportMsg struct {
 type TrackDomainMsg struct {
 	TerminalDomain string
 	CdnTrackDomain string
+}
+
+type PreCacheMsg struct {
+	FileName   string `json:"fileName"`
+	StreamId   uint   `json:"streamId"`
+	RegionName string `json:"regionName"`
 }
