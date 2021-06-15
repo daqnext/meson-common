@@ -266,3 +266,9 @@ type PreCacheMsg struct {
 	StreamId   uint   `json:"streamId"`
 	RegionName string `json:"regionName"`
 }
+
+type DeleteCacheMsg struct {
+	FileName   string `json:"fileName"`
+	StreamId   uint   `json:"streamId"`
+	RegionName string `json:"regionName"`
+}
