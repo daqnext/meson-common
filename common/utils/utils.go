@@ -5,18 +5,27 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
 	sysnet "net"
+	"net/url"
 	"os"
 	"os/exec"
 	"path"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 	"unsafe"
 )
+
+var r *rand.Rand
+
+func init() {
+	r = rand.New(rand.NewSource(time.Now().Unix()))
+}
 
 func GetStringHash(str string) string {
 	h := md5.New()
@@ -91,7 +100,7 @@ func GetDirSize(rootPath string) (uint64, error) {
 	dirSize := uint64(0)
 
 	readSize := func(path string, file os.FileInfo, err error) error {
-		if !file.IsDir() {
+		if err == nil && file != nil && !file.IsDir() {
 			dirSize += uint64(file.Size())
 		}
 
@@ -181,8 +190,6 @@ func DeleteEmptyFolders(path string) {
 	for _, dir := range emptys {
 		if err := os.Remove(dir); err != nil {
 			fmt.Println("delete folder error:", err.Error())
-		} else {
-
 		}
 	}
 }
@@ -308,4 +315,73 @@ func TagToIp(str string) string {
 		}
 	}
 	return result
+}
+
+func VerifyEmailFormat(email string) bool {
+	pattern := `\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*` //匹配电子邮箱
+	reg := regexp.MustCompile(pattern)
+	return reg.MatchString(email)
+}
+
+func GetUrlIp(rawUrl string) (string, error) {
+	u, err := url.Parse(rawUrl)
+	if err != nil {
+		return "", err
+	}
+	host := strings.Split(u.Host, ":")
+	ips, err := sysnet.LookupHost(host[0])
+	if err != nil {
+		return "", err
+	}
+	if len(ips) == 0 {
+		return "", errors.New("GetUrlIp net.LookupHost get no ip")
+	}
+	return ips[0], nil
+}
+
+func RandString(len int) string {
+	bytes := make([]byte, len)
+	for i := 0; i < len; i++ {
+		b := r.Intn(26) + 97
+		bytes[i] = byte(b)
+	}
+	return string(bytes)
+}
+
+func ChunkSlice(slice []interface{}, chunkSize int) [][]interface{} {
+	var chunks [][]interface{}
+	for {
+		if len(slice) == 0 {
+			break
+		}
+
+		// necessary check to avoid slicing beyond
+		// slice capacity
+		if len(slice) < chunkSize {
+			chunkSize = len(slice)
+		}
+
+		chunks = append(chunks, slice[0:chunkSize])
+		slice = slice[chunkSize:]
+	}
+	return chunks
+}
+
+func ChunkSliceString(slice []string, chunkSize int) [][]string {
+	var chunks [][]string
+	for {
+		if len(slice) == 0 {
+			break
+		}
+
+		// necessary check to avoid slicing beyond
+		// slice capacity
+		if len(slice) < chunkSize {
+			chunkSize = len(slice)
+		}
+
+		chunks = append(chunks, slice[0:chunkSize])
+		slice = slice[chunkSize:]
+	}
+	return chunks
 }

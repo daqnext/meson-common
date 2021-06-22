@@ -9,4 +9,6 @@ const (
 	Validator    EMachine = "Validator"
 	FileStore    EMachine = "FileStore"
 	RegionServer EMachine = "RegionServer"
+	CenterServer EMachine = "CenterServer"
+	LiveServer   EMachine = "LiveServer"
 )

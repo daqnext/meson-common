@@ -4,7 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"github.com/daqnext/meson-common/common/accountmgr"
+	"github.com/daqnext/meson-common/common/logger"
+	"github.com/daqnext/meson-common/common/resp"
 	"github.com/gin-gonic/gin"
+	"github.com/imroc/req"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -96,6 +100,68 @@ func Request(method string, url string, payload interface{}, header map[string]s
 		return nil, err
 	}
 	return content, nil
+}
+
+func SendGetRequest(url string, param req.Param, authorizationToken string, timeoutSecond int) (*req.Resp, error) {
+	var authHeader req.Header = nil
+	if authorizationToken != "" {
+		authHeader = req.Header{
+			"Accept":        "application/json",
+			"Authorization": "Basic " + accountmgr.Token,
+		}
+	}
+
+	r := req.New()
+	if timeoutSecond > 0 {
+		r.SetTimeout(time.Duration(timeoutSecond) * time.Second)
+	}
+
+	response, err := r.Get(url, param, authHeader)
+	if err != nil {
+		logger.Error("request error", "err", err)
+		return nil, err
+	}
+	return response, nil
+}
+
+func SendPostRequest(url string, param req.Param, body interface{}, authorizationToken string, timeoutSecond int) (*req.Resp, error) {
+	var authHeader req.Header = nil
+	if authorizationToken != "" {
+		authHeader = req.Header{
+			"Accept":        "application/json",
+			"Authorization": "Basic " + accountmgr.Token,
+		}
+	}
+
+	r := req.New()
+	if timeoutSecond > 0 {
+		r.SetTimeout(time.Duration(timeoutSecond) * time.Second)
+	}
+
+	response, err := r.Post(url, param, authHeader, req.BodyJSON(body))
+	if err != nil {
+		logger.Error("request error", "err", err)
+		return nil, err
+	}
+	return response, nil
+}
+
+func GenResponseStruct(v interface{}) *resp.RespBody {
+	return &resp.RespBody{
+		Data: v,
+	}
+}
+
+func HandleResponse(response *req.Resp, v *resp.RespBody) (httpStatusCode int, err error) {
+	httpResponse := response.Response()
+	httpStatusCode = httpResponse.StatusCode
+
+	err = response.ToJSON(v)
+	if err != nil {
+		logger.Error("response.ToJSON error", "err", err)
+		return httpStatusCode, err
+	}
+	return httpStatusCode, nil
 }
 
 func ForwardRequest(ctx *gin.Context, scheme string, host string, path string) {
