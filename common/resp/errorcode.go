@@ -85,6 +85,7 @@ const (
 	saveFileFailed = 3001
 	setIndexFailed = 3002
 	fileNotExist   = 3003
+	illegalRequest = 3008
 
 	addDownloadTaskFailed = 4001
 	noEnoughSpace         = 4002
@@ -149,9 +150,10 @@ var (
 	ErrLiveStreamingUserErr = newHTTPErr(liveStreamingUserErr, "user error")
 
 	// ================= terminal part =================
-	ErrSaveFile     = newHTTPErr(saveFileFailed, "failed to save file")
-	ErrSetFileIndex = newHTTPErr(setIndexFailed, "failed to set index for new file")
-	ErrFileNotExist = newHTTPErr(fileNotExist, "file not exist in local index")
+	ErrSaveFile       = newHTTPErr(saveFileFailed, "failed to save file")
+	ErrSetFileIndex   = newHTTPErr(setIndexFailed, "failed to set index for new file")
+	ErrFileNotExist   = newHTTPErr(fileNotExist, "file not exist in local index")
+	ErrIllegalRequest = newHTTPErr(illegalRequest, "illegal request")
 
 	// ================= FileTransfer part =================
 	ErrNoSpace               = newHTTPErr(noEnoughSpace, "not enough space")
