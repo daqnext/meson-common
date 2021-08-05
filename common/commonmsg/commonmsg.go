@@ -273,3 +273,19 @@ type DeleteCacheMsg struct {
 	StreamId   uint   `json:"streamId"`
 	RegionName string `json:"regionName"`
 }
+
+type RegionAliveTerminalTagMsg struct {
+	UploadedTimeMap map[string]float64 //map[tag#userid]timestamp
+}
+
+type ModifyIpLocationMsg struct {
+	Ip          string
+	CountryCode string
+	MachineTag  string
+	UserId      uint
+}
+
+type CenterModifyIpLocationMsg struct {
+	Ip          string
+	CountryCode string
+}
